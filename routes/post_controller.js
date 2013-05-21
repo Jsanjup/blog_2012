@@ -233,6 +233,25 @@ exports.update = function(req, res, next) {
         });
 };
 
+exports.search= function(req, res, next){
+    var string=req.query.search_string || "";
+    var partido= string.split(" ");
+    string="%";
+    for(var i in partido)
+      string+=partido[i]+"%";
+    console.log(string);
+    models.Post
+      .findAll({where: ["title like ? OR body like ?", string, string], order: "updatedAt DESC"})
+      .success(function(posts_found) {
+             res.render('posts/index_search', {posts_found: posts_found});
+        })
+      .error(function(error) {
+            console.log("Error: No puedo listar los posts.");
+            res.redirect('/');
+        });
+    //res.render('posts/search', {post: post});
+};
+
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 

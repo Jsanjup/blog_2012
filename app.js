@@ -56,6 +56,7 @@ app.get('/posts/:postid([0-9]+).:format?', postController.show);
 app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
+app.get('/posts/search', postController.search);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
 
 //---------------------
