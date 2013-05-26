@@ -6,12 +6,12 @@
         <%= post.title %>
         <small>por <em> <%= post.author && post.author.name || "Sin autor" %> </em></small>
       </h1>
+      <%- include ../favourites/show.ejs %>
      <em> <%= post.updatedAt.toLocaleDateString() %></em>
    </div>
 
    <p><%- escapeText(post.body) %></p>
-
-   <% if (session.user && session.user.id == post.authorId) {%>  
+   <% if (session.user && session.user.id == post.authorId) {%>
      <a href="/posts/<%= post.id %>/edit"> Editar </a>
    <% } %>
 </div>

@@ -12,7 +12,8 @@ var express = require('express')
   , postController = require('./routes/post_controller.js')
   , userController = require('./routes/user_controller.js')
   , commentController = require('./routes/comment_controller.js')
-  , attachmentController = require('./routes/attachment_controller.js');
+  , attachmentController = require('./routes/attachment_controller.js')
+  , favouritesController = require('./routes/favourites_controller.js');
 
 var util = require('util');
 
@@ -146,6 +147,7 @@ app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit',
 	commentController.loggedUserIsAuthor,
 	commentController.edit);
 
+
 app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', 
 	sessionController.requiresLogin,
 	commentController.loggedUserIsAuthor,
@@ -193,6 +195,7 @@ app.delete('/posts/:postid([0-9]+)',
 app.get('/users', userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+)', userController.show);
+app.get('/users/:userid([0-9]+)/favourites', favouritesController.index);
 app.post('/users', userController.create);
 
 app.get('/users/:userid([0-9]+)/edit', 
@@ -202,7 +205,7 @@ app.get('/users/:userid([0-9]+)/edit',
 
 app.put('/users/:userid([0-9]+)', 
         sessionController.requiresLogin,
-	userController.loggedUserIsUser,
+	     userController.loggedUserIsUser,
         userController.update);
 
 // app.delete('/users/:userid([0-9]+)', 

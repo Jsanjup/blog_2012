@@ -3,10 +3,10 @@
 <head>
    <meta charset="utf-8">
    
-   <title>CORE</title>
+   <title>SWCM</title>
 
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="Proyecto Blog de CORE">
+   <meta name="description" content="Proyecto Blog de SWCM">
    <meta name="author" content="Santiago Pavón">
 
    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
@@ -30,7 +30,7 @@
             <span class="icon-bar"></span>
           </a>
 
-          <a class="brand" href="#">El Blog de CORE</a>
+          <a class="brand" href="#">El Blog de SWCM</a>
 
           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -60,6 +60,9 @@
               <li><a href="/"><i class='icon-home icon-white'></i> Home</a></li>
               <li><a href="/posts"><i class='icon-tasks icon-white'></i> Posts</a></li>
               <li><a href="/users"><i class='icon-user icon-white'></i> Usuarios</a></li>
+              <% if(session.user){%>
+              <li><a href="/users/<%=session.user.id%>/favourites"><i class='icon-star icon-white'></i> Favoritos</a></li>
+              <%}%>
             </ul>
           </div><!--/.nav-collapse -->
 

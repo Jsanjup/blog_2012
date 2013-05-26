@@ -53,8 +53,6 @@ exports.index = function(req, res, next) {
 	      })
         .success(function(posts) {
 
-          // console.log(posts);
-          
             switch (format) { 
               case 'html':
               case 'htm':

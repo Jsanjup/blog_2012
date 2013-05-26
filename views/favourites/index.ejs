@@ -1,0 +1,16 @@
+<% if (session.user){
+      if(false){%>
+      <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id %>' name='<%= form_name %>'>
+          <input type='hidden' name='_method' value='put'>
+          <a class='btn btn-info btn-mini' type='submit' href="" onclick="submit();return false"> 
+             <i class='icon-star-empty icon-grey'></i> Fav
+          </a>  
+        </form>
+        <%} else{%>
+        <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id %>' name='<%= form_name %>'>
+          <input type='hidden' name='_method' value='delete'>
+          <a class='btn btn-info btn-mini' type='submit' href="" onclick="submit();return false"> 
+             <i class='icon-star icon-grey'></i> Favorito
+          </a>  
+        </form>
+        <%} }%>
