@@ -1,0 +1,35 @@
+<header>
+  <h2> Posts encontrados: </h2>
+</header>
+
+<% if(posts_found.length>0){ 
+  for (var i in posts_found) {
+ %>
+  <article>
+     <header>
+        <h3>
+          <a href='/posts/<%= posts_found[i].id %>' class='titlelink'> <%= posts_found[i].title %> </a>
+        </h3>
+     </header>
+     
+     <p>
+        <%= posts_found[i].body.slice(0,300) %> ... 
+     </p>
+
+     <footer>
+        <form method='post' action='/posts/<%= posts_found[i].id %>'>
+          <input type='hidden' name='_method' value='delete'>
+          <a href="/posts/<%= posts_found[i].id %>/edit"> Editar </a> 
+          <a href="" onclick="submit();return false"> Borrar </a>  
+        </form>
+     </footer>
+  </article>
+
+<% }} else{ %>
+<h3> Su búsqueda no ha obtenido resultados </h3> 
+<% }; %>
+<footer>
+  <nav>
+    <a href="/posts/new"> Crear nuevo Post </a>
+  </nav>
+</footer>
