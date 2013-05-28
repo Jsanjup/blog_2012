@@ -1,5 +1,5 @@
 <% if (session.user){
-      if(false){%>
+      if(true){%>
       <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id %>' name='<%= form_name %>'>
           <input type='hidden' name='_method' value='put'>
           <a class='btn btn-info btn-mini' type='submit' href="" onclick="submit();return false"> 
@@ -10,7 +10,7 @@
         <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id %>' name='<%= form_name %>'>
           <input type='hidden' name='_method' value='delete'>
           <a class='btn btn-info btn-mini' type='submit' href="" onclick="submit();return false"> 
-             <i class='icon-star icon-grey'></i> Favorito
+             <i class='icon-star icon-white'></i> Favorito
           </a>  
         </form>
         <%} }%>

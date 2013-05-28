@@ -208,6 +208,15 @@ app.put('/users/:userid([0-9]+)',
 	     userController.loggedUserIsUser,
         userController.update);
 
+app.put('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', 
+        sessionController.requiresLogin,
+        userController.loggedUserIsUser,
+        favouritesController.makeFavourite);
+
+app.delete('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', 
+        sessionController.requiresLogin,
+        userController.loggedUserIsUser,
+        favouritesController.destroy);
 // app.delete('/users/:userid([0-9]+)', 
 //        sessionController.requiresLogin,
 //           userController.destroy);
