@@ -56,7 +56,7 @@ exports.index = function(req, res, next) {
             for(var i in posts){
               var usuario=false;
               for(var j in posts[i].favourites){
-                if(req.session.user && (posts[i].favourites[j].userId == req.session.user.id){
+                if(req.session.user && (posts[i].favourites[j].userId == req.session.user.id)){
                   console.log("entra en el bucle");
                   favs.push(true);
                   usuario=true;
