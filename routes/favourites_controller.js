@@ -28,12 +28,16 @@ exports.index = function(req, res, next) {
                     models.Favourite ]
                  })
           .success(function(posts) {
-                          
+            var favs= new Array();
+            for(var i in posts){
+              favs.push(true);
+            }   
             switch (format) { 
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    favourite: favs
                   });
                   break;
               case 'json':
@@ -65,19 +69,6 @@ exports.makeFavourite = function(req, res, next){
           postId: req.post.id
         });
     
-    var validate_errors = favourite.validate();
-    if (validate_errors) {
-        console.log("Errores de validación:", validate_errors);
-
-        req.flash('error', 'Los datos del formulario son incorrectos.');
-        for (var err in validate_errors) {
-           req.flash('error', validate_errors[err]);
-        };
-
-        res.render('posts/edit', {post: req.post,
-                                 validate_errors: validate_errors});
-        return;
-    } 
     
     favourite.save()
         .success(function() {
@@ -90,16 +81,14 @@ exports.makeFavourite = function(req, res, next){
 }
 
 exports.destroy = function(req, res, next) {
-    var favourite = models.Favourite.build(
-        { userId: req.session.user.id,
-          postId: req.post.id
-        });
+    models.Favourite.find({where: {userId: req.user.id, postId: req.post.id}}).success(function(favourite){
     favourite.destroy()
         .success(function() {
             req.flash('success', 'Desmarcado como favorito');
-            res.redirect('/posts/' + req.post.id );
+            res.redirect('/posts');
         })
         .error(function(error) {
             next(error);
         });
+      });
 };

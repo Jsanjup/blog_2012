@@ -1,5 +1,5 @@
 <% if (session.user){
-      if(true){%>
+      if(!favourite[i]){%>
       <form method='post' action='/users/<%=session.user.id%>/favourites/<%=posts[i].id %>' name='<%= form_name %>'>
           <input type='hidden' name='_method' value='put'>
           <a class='btn btn-info btn-mini' type='submit' href="" onclick="submit();return false"> 

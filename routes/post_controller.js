@@ -49,15 +49,28 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author' } ]
+	                include: [ { model: models.User, as: 'Author' }, models.Favourite ]
 	      })
         .success(function(posts) {
-
+            var favs= [];
+            for(var i in posts){
+              var usuario=false;
+              for(var j in posts[i].favourites){
+                if(req.session.user && (posts[i].favourites[j].userId == req.session.user.id){
+                  console.log("entra en el bucle");
+                  favs.push(true);
+                  usuario=true;
+                }
+              }
+              if(!usuario) favs.push(false);
+            }
+            console.log("favs a renderizar "+favs);
             switch (format) { 
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    favourite: favs
                   });
                   break;
               case 'json':
@@ -116,10 +129,10 @@ exports.show = function(req, res, next) {
     models.User
         .find({where: {id: req.post.authorId}})
         .success(function(user) {
-
             // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
-
+            models.Favourite.find({where: {postId: req.post.id, userId: req.session.user.id}})
+                          .success( function(favorito){
             // Buscar Adjuntos
             req.post.getAttachments({order: 'updatedAt DESC'})
                .success(function(attachments) {
@@ -128,13 +141,12 @@ exports.show = function(req, res, next) {
                   models.Comment
                        .findAll({where: {postId: req.post.id},
                                  order: 'updatedAt DESC',
-                                 include: [ { model: models.User, as: 'Author' } ] 
+                                 include:[{model:models.User,as:'Author'}]
+
                        })
                        .success(function(comments) {
-
                           var format = req.params.format || 'html';
                           format = format.toLowerCase();
-
                           switch (format) { 
                             case 'html':
                             case 'htm':
@@ -145,7 +157,8 @@ exports.show = function(req, res, next) {
                                     post: req.post,
                                     comments: comments,
                                     comment: new_comment,
-                                    attachments: attachments
+                                    attachments: attachments,
+                                    favourite: favorito
                                 });
                                 break;
                             case 'json':
@@ -161,10 +174,13 @@ exports.show = function(req, res, next) {
                                 console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
                                 res.send(406);
                           }
-                       })
-                       .error(function(error) {
+                        }).error(function(error) {
                            next(error);
                        })
+                    })
+                    .error(function(error) {
+                           next(error);
+                    })
                 })
                .error(function(error) {
                    next(error);
